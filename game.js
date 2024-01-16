@@ -1,119 +1,117 @@
-var rock = document.querySelector("#rock-hand-image");
-var rockButton = document.getElementById("rock");
+let rockbtn = document.getElementById("rock");
+let paperbtn = document.getElementById("paper");
+let scissorsbtn = document.getElementById("scissors");
 
-var paper = document.querySelector("#paper-hand-image");
-var paperButton = document.getElementById("paper");
+let userRock = document.getElementById("rockimg");
+let userPaper = document.getElementById("paperimg");
+let userScissors = document.getElementById("scissorsimg");
 
-var scissors = document.querySelector("#scissors-hand-image");
-var sessiorButton = document.getElementById("scissors");
+let ROCK = document.getElementById("rockcomp");
+let PAPER = document.getElementById("papercomp");
+let SCISSORS = document.getElementById("scissorscomp");
 
-var scorePlayer = document.getElementById("player-score");
-var scoreComputer = document.getElementById("computer-score");
+let computerScore = document.getElementById("comp-score");
+let playerScore = document.getElementById("player-score");
 
-let compImg = document.querySelector("#computer-side img");
+let playAgain = document.getElementById("play-again");
 
-let gameover = document.getElementById("gameOver");
-var button = document.getElementById("play-Again");
-
-let controlBtn=document.getElementById("control-buttons")
-
-let playerScore = 0;
-let computerScore = 0;
-
-
-
-
-rockButton.onclick=()=>{
-    rock.style.display="block"
-    scissors.style.display="none"
-    paper.style.display="none"
-    computerRandom()
-
-    if(x==2){
-        computerScore++;
-        scoreComputer.textContent=computerScore
-
-    }
-    else if(x==3){
-        playerScore++;
-        scorePlayer.textContent=playerScore;
-    }
-    checkWin();
-  
-
-
-    
-}
-paperButton.onclick=()=>{
-    paper.style.display="block"
-    rock.style.display="none"
-    scissors.style.display="none"
-    computerRandom()
-
-    if(x==3){
-        computerScore++;
-        scoreComputer.textContent=computerScore
-
-    }
-    else if(x==1){
-        playerScore++;
-        scorePlayer.textContent=playerScore;
-    }
-
-    checkWin();
-
-
-
-}
-sessiorButton.onclick=()=>{
-    scissors.style.display="block"
-    rock.style.display="none"
-    paper.style.display="none"
-    computerRandom()
-
-    if(x==1){
-        computerScore++;
-        scoreComputer.textContent=computerScore
-
-    }
-    else if(x==2){
-        playerScore++;
-        scorePlayer.textContent=playerScore;
-    }
-    checkWin();
-
-
-}
-function computerRandom() {
-    x = Math.ceil(Math.random() * 3);
-    switch (x) {
-        case 1:
-            compImg.setAttribute("src", "assets/rock-hand.png");
-            break;
-        case 2:
-            compImg.setAttribute("src", "assets/paper-hand.png");
-            break;
-        case 3:
-            compImg.setAttribute("src", "assets/scissors-hand.png");
-            break;
-    }
-}
-
-var statusofGame = document.getElementById("gameStatus");
-
-function checkWin() {
-    if (playerScore == 5) {
-        gameover.style.display = "block";
-        statusofGame.textContent = "Player won the game";
-        controlBtn.style.display="none"
-    } else if (computerScore == 5) {
-        gameover.style.display = "block";
-        statusofGame.textContent = "Computer won the game";
-        controlBtn.style.display="none"
-
-    }
-}
-
-button.onclick = () => {
-window.location.reload()
+const getRandomNum = () => {
+  return Math.floor(Math.random() * 3);
 };
+//  Functions for computer's choice
+function rockComp() {
+  ROCK.style.display = "block";
+  PAPER.style.display = "none";
+  SCISSORS.style.display = "none";
+}
+
+function paperComp() {
+  PAPER.style.display = "block";
+  ROCK.style.display = "none";
+  SCISSORS.style.display = "none";
+}
+
+function scissorsComp() {
+  SCISSORS.style.display = "block";
+  PAPER.style.display = "none";
+  ROCK.style.display = "none";
+}
+// Initially both scores are set to  zero
+let compScore = 0;
+let userScore = 0;
+
+// On selecting a choice by the user his choice is displayed along with computer's amd score is evaluated based on the conditional elements
+rockbtn.onclick = () => {
+  let randomNum = getRandomNum();
+  [rockComp, paperComp, scissorsComp][randomNum]();
+  userRock.style.display = "block";
+  userPaper.style.display = "none";
+  userScissors.style.display = "none";
+
+  if (randomNum == 1) {
+    compScore++;
+    computerScore.textContent = compScore;
+  } else if (randomNum == 2) {
+    userScore++;
+    playerScore.textContent = userScore;
+  }
+  winStatus();
+};
+
+paperbtn.onclick = () => {
+  let randomNum = getRandomNum();
+  [rockComp, paperComp, scissorsComp][randomNum]();
+  userPaper.style.display = "block";
+  userRock.style.display = "none";
+  userScissors.style.display = "none";
+
+  if (randomNum == 2) {
+    compScore++;
+    computerScore.textContent = compScore;
+  } else if (randomNum == 0) {
+    userScore++;
+    playerScore.textContent = userScore;
+  }
+  winStatus();
+};
+
+scissorsbtn.onclick = () => {
+  let randomNum = getRandomNum();
+  [rockComp, paperComp, scissorsComp][randomNum]();
+  userScissors.style.display = "block";
+  userRock.style.display = "none";
+  userPaper.style.display = "none";
+
+  if (randomNum == 0) {
+    compScore++;
+    computerScore.textContent = compScore;
+  } else if (randomNum == 1) {
+    userScore++;
+    playerScore.textContent = userScore;
+  }
+  winStatus();
+};
+// Function to show winner
+function winStatus() {
+  let gameStatus = document.getElementById("gamestatus");
+  if (userScore == 5) {
+    gameStatus.textContent = "Player won the game";
+    playAgain.style.display = "block";
+    hideButtons();
+  } else if (compScore == 5) {
+    gameStatus.textContent = "Computer won the game";
+    playAgain.style.display = "block";
+    hideButtons();
+  }
+}
+// Reloading webpage to play again
+playAgain.onclick = () => {
+  window.location.reload();
+};
+
+//Hiding buttons after one scoring 5
+function hideButtons() {
+  rockbtn.style.display = "none";
+  paperbtn.style.display = "none";
+  scissorsbtn.style.display = "none";
+}

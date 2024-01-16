@@ -1,4 +1,4 @@
-var playGame=document.getElementById("play");
-playGame.onclick=()=>{
-    window.location.href="./game.html"
-}
+var playbtn = document.getElementById("Play");
+playbtn.onclick = () => {
+  window.location.href = "./game.html";
+};
